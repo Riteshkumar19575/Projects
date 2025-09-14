@@ -1,56 +1,574 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio - Ritesh Kumar</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Krishi Officer - AI Based Farmer Support</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background-color 0.3s ease;
+        }
+        
+        .malayalam-font {
+            font-family: 'Noto Sans Malayalam', sans-serif;
+        }
+
+        .dark body {
+            background-color: #1a202c;
+        }
+        .chat-container {
+            max-height: calc(100vh - 200px);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #d1d5db #f3f4f6;
+            scroll-behavior: smooth;
+        }
+        .dark .chat-container {
+            scrollbar-color: #4b5563 #1f2937;
+        }
+        .chat-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .chat-container::-webkit-scrollbar-track {
+            background: #f3f4f6;
+        }
+        .dark .chat-container::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        .chat-container::-webkit-scrollbar-thumb {
+            background-color: #d1d5db;
+            border-radius: 4px;
+        }
+        .dark .chat-container::-webkit-scrollbar-thumb {
+            background-color: #4b5563;
+        }
+        .user-message {
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 1.25rem 1.25rem 0.5rem 1.25rem;
+        }
+        .ai-message {
+            background-color: #ffffff;
+            color: #1f2937;
+            border-radius: 1.25rem 1.25rem 1.25rem 0.5rem;
+        }
+        .dark .ai-message {
+            background-color: #2d3748;
+            color: white;
+        }
+        .btn-primary {
+            background-color: #10b981;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.1), 0 2px 4px -1px rgba(16, 185, 129, 0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px -1px rgba(16, 185, 129, 0.15), 0 4px 6px -1px rgba(16, 185, 129, 0.1);
+        }
+        .spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .modal {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .header-bg {
+            background: linear-gradient(135deg, #10b981, #065f46);
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gradient-to-br from-green-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>RITESH KUMAR</h1>
-      <p>Programmer · Web Developer · Graphic Designer</p>
-      <div class="social-links">
-        <a href="https://www.linkedin.com/in/ritesh-kumar-7b4a29344?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
-        <a href="https://github.com/Riteshkumar19575" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
-      </div>
-      <div class="buttons">
-        <a href="#about" class="btn">About Me</a>
-        <a href="#projects" class="btn">Projects</a>
-      </div>
+    <!-- Header Section -->
+    <header class="header-bg text-white shadow-lg">
+        <div class="container mx-auto p-4 flex flex-col md:flex-row items-center justify-between">
+            <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Emblem_of_Kerala.svg/200px-Emblem_of_Kerala.svg.png" alt="Kerala Logo" class="h-12 w-12 rounded-full border-2 border-white p-1 bg-white">
+                <h1 id="main-title" class="text-3xl font-bold">Digital Krishi Officer</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <select id="language-select" class="bg-white text-green-600 rounded-lg px-3 py-1 text-sm font-semibold focus:outline-none">
+                    <option value="en">English</option>
+                    <option value="hi">हिंदी (Hindi)</option>
+                    <option value="ml">മലയാളം (Malayalam)</option>
+                </select>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-white hover:bg-opacity-20 transition-colors">
+                    <i id="moon-icon" class="fa-solid fa-moon"></i>
+                    <i id="sun-icon" class="fa-solid fa-sun hidden"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Section -->
+    <main class="container mx-auto p-6 md:p-12 lg:flex lg:space-x-8">
+        
+        <!-- Welcome and Info Section (Left Side) -->
+        <section class="lg:w-1/2 bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-8 lg:mb-0">
+            <h2 id="welcome-title" class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-4">A New Companion for Farmers</h2>
+            <p id="welcome-text" class="text-gray-600 dark:text-gray-400 mb-6">
+                Digital Krishi Officer is an AI-based support system that provides farmers with instant and accurate answers to their queries related to crops, weather, and government schemes. This system is a significant step towards empowering the agricultural sector of India.
+            </p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-xl flex items-center space-x-4">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Narendra_Modi_in_2021.jpg/800px-Narendra_Modi_in_2021.jpg" onerror="this.onerror=null;this.src='https://placehold.co/120x150/e2e8f0/4a5568?text=Modi+Ji';" alt="Narendra Modi Ji, Prime Minister of India" class="w-16 h-16 rounded-full border-2 border-green-500 object-cover">
+                    <div>
+                        <h3 id="pm-title" class="font-semibold text-gray-800 dark:text-gray-200">Honorable Prime Minister</h3>
+                        <p id="pm-name" class="text-sm text-gray-600 dark:text-gray-400">Shri Narendra Modi</p>
+                    </div>
+                </div>
+                <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-xl flex items-center space-x-4">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ec/Pinarayi_Vijayan_at_the_Vasanthotsavam_2017.jpg" onerror="this.onerror=null;this.src='https://placehold.co/120x150/e2e8f0/4a5568?text=CM+Kerala';" alt="Pinarayi Vijayan, Chief Minister of Kerala" class="w-16 h-16 rounded-full border-2 border-green-500 object-cover">
+                    <div>
+                        <h3 id="cm-title" class="font-semibold text-gray-800 dark:text-gray-200">Chief Minister, Kerala</h3>
+                        <p id="cm-name" class="text-sm text-gray-600 dark:text-gray-400">Shri Pinarayi Vijayan</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chatbot Section (Right Side) -->
+        <section class="lg:w-1/2 bg-white dark:bg-gray-800 rounded-2xl shadow-xl flex flex-col">
+            <div class="p-4 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-t-2xl">
+                <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+                    <input type="text" id="crop-input" placeholder="Crop (e.g., Banana, Rice)" class="flex-1 rounded-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+                    <input type="text" id="location-input" placeholder="Location (e.g., Kerala)" class="flex-1 rounded-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+                </div>
+                <p id="note-text" class="text-xs text-center mt-2 opacity-75">
+                    Note: These inputs are used for context in the AI prompt.
+                </p>
+                <div id="user-id-display" class="mt-2 text-xs text-center"></div>
+            </div>
+
+            <!-- Chat Area -->
+            <div id="chat-messages" class="chat-container flex-1 p-6 space-y-4">
+                <!-- Initial Welcome Message -->
+                <div class="flex justify-start">
+                    <div class="ai-message p-4 max-w-md shadow-sm">
+                        <p id="initial-welcome">Hello! I am your Digital Krishi Officer. How can I help you today?</p>
+                    </div>
+                </div>
+                <!-- Messages will be appended here -->
+            </div>
+
+            <!-- Input Area -->
+            <div class="p-4 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 rounded-b-2xl">
+                <div class="flex items-center space-x-3">
+                    <input type="file" id="image-upload" accept="image/*" class="hidden">
+                    <button id="image-btn" class="p-2 text-gray-500 dark:text-gray-400 hover:text-green-600 transition-colors rounded-full">
+                        <i class="fa-solid fa-image text-xl"></i>
+                    </button>
+                    <button id="voice-btn" class="p-2 text-gray-500 dark:text-gray-400 hover:text-green-600 transition-colors rounded-full">
+                        <i class="fa-solid fa-microphone text-xl"></i>
+                    </button>
+                    <input type="text" id="user-input" placeholder="Type your query..." class="flex-1 rounded-full px-4 py-2 bg-gray-100 dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors">
+                    <button id="send-btn" class="btn-primary rounded-full p-3 text-white">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for messages and errors -->
+    <div id="modal" class="modal fixed inset-0 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-xl text-center max-w-sm w-full relative">
+            <h3 id="modal-title" class="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200"></h3>
+            <p id="modal-message" class="text-gray-600 dark:text-gray-400 mb-4"></p>
+            <button id="modal-close-btn" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">OK</button>
+        </div>
     </div>
-    <div class="scroll-down">
-      <i class="fas fa-chevron-down"></i>
-    </div>
-  </section>
+    
+    <script type="module">
+        // Firebase imports are not implemented for simplicity, but would be needed for a persistent solution.
+        // import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        // import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        // import { getFirestore, doc, setDoc, getDocs, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-  <!-- About Section -->
-  <section class="about" id="about">
-    <h2>My Story</h2>
-    <img src="profile.jpg" alt="Profile Picture" class="profile-pic">
-    <p>
- Hi, I’m Ritesh Kumar, a Computer Science Engineering student at ITS Engineering College, Greater Noida. I have a strong interest in Data Structures & Algorithms, Web Development, and Problem-Solving.
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const imageBtn = document.getElementById('image-btn');
+        const imageUpload = document.getElementById('image-upload');
+        const voiceBtn = document.getElementById('voice-btn');
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const languageSelect = document.getElementById('language-select');
+        const themeToggle = document.getElementById('theme-toggle');
+        const moonIcon = document.getElementById('moon-icon');
+        const sunIcon = document.getElementById('sun-icon');
+        const cropInput = document.getElementById('crop-input');
+        const locationInput = document.getElementById('location-input');
+        const userIdDisplay = document.getElementById('user-id-display');
+        
+        // DOM Elements for language change
+        const mainTitle = document.getElementById('main-title');
+        const welcomeTitle = document.getElementById('welcome-title');
+        const welcomeText = document.getElementById('welcome-text');
+        const pmTitle = document.getElementById('pm-title');
+        const pmName = document.getElementById('pm-name');
+        const cmTitle = document.getElementById('cm-title');
+        const cmName = document.getElementById('cm-name');
+        const noteText = document.getElementById('note-text');
+        const initialWelcome = document.getElementById('initial-welcome');
+        
 
-I participated in the Smart India Hackathon (SIH), which gave me hands-on experience in innovation and teamwork. I am also an active member of the Entrepreneurship Cell (E-Cell), where I collaborate on entrepreneurial activities and leadership initiatives.
+        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=';
+        const API_KEY = ""; // This will be provided by the canvas environment
 
-Currently, I’m exploring entrepreneurship through my idea of a Travel & Tourism startup. My goal is to gain industry experience, work on impactful projects, and grow as a tech professional and innovator.
-    </p>
-  </section>
+        const chatHistory = [];
+        let isWaitingForResponse = false;
+        const MAX_RETRIES = 5;
 
-  <!-- Projects Section -->
-  <section class="projects" id="projects">
-    <h2>Projects</h2>
-    <p>Coming soon...</p>
-  </section>
+        // User ID for demonstration (would be Firebase user ID in a real app)
+        const userId = 'user-' + crypto.randomUUID();
+        userIdDisplay.textContent = `User ID: ${userId}`;
 
+        // Language-specific text
+        const translations = {
+            'en': {
+                'main-title': 'Digital Krishi Officer',
+                'welcome-title': 'A New Companion for Farmers',
+                'welcome-text': 'Digital Krishi Officer is an AI-based support system that provides farmers with instant and accurate answers to their queries related to crops, weather, and government schemes. This system is a significant step towards empowering the agricultural sector of India.',
+                'pm-title': 'Honorable Prime Minister',
+                'pm-name': 'Shri Narendra Modi',
+                'cm-title': 'Chief Minister, Kerala',
+                'cm-name': 'Shri Pinarayi Vijayan',
+                'placeholder': 'Type your query...',
+                'initial-welcome': 'Hello! I am your Digital Krishi Officer. How can I help you today?',
+                'loading': 'Thinking...',
+                'uploading_image': 'Uploading image...',
+                'error_api': 'Sorry, something went wrong with the AI. Please try again.',
+                'error_network': 'Please check your internet connection and try again.',
+                'error_image': 'Failed to read image. Please try a different file.',
+                'modal_title_error': 'Error',
+                'modal_title_info': 'Information',
+                'modal_voice_message': 'Voice input is a simulated feature for this demo. Please use text or image input.',
+                'sending_text': 'Sending text query...',
+                'sending_image': 'Sending image and text query...',
+                'crop_placeholder': 'Crop (e.g., Banana, Rice)',
+                'location_placeholder': 'Location (e.g., Kerala)',
+                'note_text': 'Note: These inputs are used for context in the AI prompt.',
+                'modal_ok': 'OK'
+            },
+            'hi': {
+                'main-title': 'डिजिटल कृषि अधिकारी',
+                'welcome-title': 'किसान के लिए एक नया साथी',
+                'welcome-text': 'डिजिटल कृषि अधिकारी एक AI-आधारित सहायता प्रणाली है जो किसानों को उनकी फसल, मौसम, और सरकारी योजनाओं से संबंधित सवालों के तुरंत और सटीक जवाब देती है। यह प्रणाली भारत के कृषि क्षेत्र को सशक्त बनाने के लिए एक महत्वपूर्ण कदम है।',
+                'pm-title': 'माननीय प्रधानमंत्री',
+                'pm-name': 'श्री नरेंद्र मोदी',
+                'cm-title': 'मुख्यमंत्री, केरल',
+                'cm-name': 'श्री पिनाराई विजयन',
+                'placeholder': 'अपनी क्वेरी टाइप करें...',
+                'initial-welcome': 'नमस्ते! मैं आपका डिजिटल कृषि अधिकारी हूँ। मैं आज आपकी क्या मदद कर सकता हूँ?',
+                'loading': 'सोच रहा हूँ...',
+                'uploading_image': 'छवि अपलोड हो रही है...',
+                'error_api': 'क्षमा करें, AI के साथ कुछ गलत हो गया। कृपया पुन: प्रयास करें।',
+                'error_network': 'कृपया अपना इंटरनेट कनेक्शन जांचें और पुन: प्रयास करें।',
+                'error_image': 'छवि पढ़ने में विफल। कृपया एक अलग फ़ाइल का प्रयास करें।',
+                'modal_title_error': 'त्रुटि',
+                'modal_title_info': 'जानकारी',
+                'modal_voice_message': 'यह डेमो के लिए आवाज इनपुट एक नकली सुविधा है। कृपया टेक्स्ट या छवि इनपुट का उपयोग करें।',
+                'sending_text': 'टेक्स्ट क्वेरी भेज रहा हूँ...',
+                'sending_image': 'छवि और टेक्स्ट क्वेरी भेज रहा हूँ...',
+                'crop_placeholder': 'फसल (जैसे, केला, धान)',
+                'location_placeholder': 'स्थान (जैसे, केरल)',
+                'note_text': 'नोट: ये इनपुट AI प्रॉम्प्ट में संदर्भ के लिए उपयोग किए जाते हैं।',
+                'modal_ok': 'ठीक है'
+            },
+            'ml': {
+                'main-title': 'ഡിജിറ്റൽ കൃഷി ഓഫീസർ',
+                'welcome-title': 'കർഷകന് ഒരു പുതിയ കൂട്ടുകാരൻ',
+                'welcome-text': 'വിളകൾ, കാലാവസ്ഥ, സർക്കാർ പദ്ധതികൾ എന്നിവയുമായി ബന്ധപ്പെട്ട കർഷകരുടെ ചോദ്യങ്ങൾക്ക് തൽക്ഷണവും കൃത്യവുമായ ഉത്തരങ്ങൾ നൽകുന്ന ഒരു AI-അധിഷ്ഠിത പിന്തുണ സംവിധാനമാണ് ഡിജിറ്റൽ കൃഷി ഓഫീസർ. ഇന്ത്യയുടെ കാർഷിക മേഖലയെ ശാക്തീകരിക്കുന്നതിനുള്ള ഒരു പ്രധാന ചുവടുവെപ്പാണ് ഈ സംവിധാനം.',
+                'pm-title': 'ബഹുമാനപ്പെട്ട പ്രധാനമന്ത്രി',
+                'pm-name': 'ശ്രീ നരേന്ദ്ര മോദി',
+                'cm-title': 'മുഖ്യമന്ത്രി, കേരളം',
+                'cm-name': 'ശ്രീ പിണറായി വിജയൻ',
+                'placeholder': 'നിങ്ങളുടെ ചോദ്യം ടൈപ്പ് ചെയ്യുക...',
+                'initial-welcome': 'നമസ്കാരം! ഞാൻ നിങ്ങളുടെ ഡിജിറ്റൽ കൃഷി ഓഫീസറാണ്. ഇന്ന് ഞാൻ നിങ്ങളെ എങ്ങനെ സഹായിക്കും?',
+                'loading': 'ആലോചിക്കുന്നു...',
+                'uploading_image': 'ചിത്രം അപ്‌ലോഡ് ചെയ്യുന്നു...',
+                'error_api': 'ക്ഷമിക്കണം, AI-യിൽ എന്തോ തകരാറ് സംഭവിച്ചു. വീണ്ടും ശ്രമിക്കുക.',
+                'error_network': 'നിങ്ങളുടെ ഇന്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക, വീണ്ടും ശ്രമിക്കുക.',
+                'error_image': 'ചിത്രം വായിക്കാൻ പരാജയപ്പെട്ടു. മറ്റൊരു ഫയൽ ശ്രമിക്കുക.',
+                'modal_title_error': 'പിശക്',
+                'modal_title_info': 'വിവരം',
+                'modal_voice_message': 'ഈ ഡെമോയ്ക്കുള്ള ശബ്ദ ഇൻപുട്ട് ഒരു സിമുലേറ്റഡ് സവിശേഷതയാണ്. ദയവായി ടെക്സ്റ്റ് അല്ലെങ്കിൽ ചിത്ര ഇൻപുട്ട് ഉപയോഗിക്കുക.',
+                'sending_text': 'ടെക്സ്റ്റ് ചോദ്യം അയക്കുന്നു...',
+                'sending_image': 'ചിത്രവും ടെക്സ്റ്റ് ചോദ്യവും അയക്കുന്നു...',
+                'crop_placeholder': 'വിള (ഉദാ. വാഴ, നെല്ല്)',
+                'location_placeholder': 'സ്ഥലം (ഉദാ. കേരളം)',
+                'note_text': 'ശ്രദ്ധിക്കുക: ഈ ഇൻപുട്ടുകൾ AI പ്രോംപ്റ്റിൽ സന്ദർഭത്തിനായി ഉപയോഗിക്കുന്നു.',
+                'modal_ok': 'ശരി'
+            }
+        };
+
+        let currentLanguage = 'hi';
+
+        // Update UI based on language selection
+        function updateUI() {
+            currentLanguage = languageSelect.value;
+            const t = translations[currentLanguage];
+            
+            // Update static text elements
+            mainTitle.textContent = t['main-title'];
+            welcomeTitle.textContent = t['welcome-title'];
+            welcomeText.textContent = t['welcome-text'];
+            pmTitle.textContent = t['pm-title'];
+            pmName.textContent = t['pm-name'];
+            cmTitle.textContent = t['cm-title'];
+            cmName.textContent = t['cm-name'];
+            userInput.placeholder = t['placeholder'];
+            cropInput.placeholder = t['crop_placeholder'];
+            locationInput.placeholder = t['location_placeholder'];
+            noteText.textContent = t['note_text'];
+            initialWelcome.textContent = t['initial-welcome'];
+            document.querySelector('#modal-close-btn').textContent = t['modal_ok'];
+            
+            // Set the font for Malayalam if selected
+            if (currentLanguage === 'ml') {
+                document.body.classList.add('malayalam-font');
+            } else {
+                document.body.classList.remove('malayalam-font');
+            }
+        }
+
+        languageSelect.addEventListener('change', updateUI);
+
+        // Dark mode toggle
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            moonIcon.classList.toggle('hidden', isDark);
+            sunIcon.classList.toggle('hidden', !isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            moonIcon.classList.add('hidden');
+            sunIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            moonIcon.classList.remove('hidden');
+            sunIcon.classList.add('hidden');
+        }
+
+        // --- Utility Functions ---
+        function showModal(title, message, isError = false) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            modal.classList.remove('hidden');
+        }
+
+        modalCloseBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        // Function to create and append a message to the chat
+        function addMessage(sender, text, isWaiting = false) {
+            const messageDiv = document.createElement('div');
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `p-4 max-w-md shadow-sm`;
+
+            if (sender === 'user') {
+                messageDiv.className = 'flex justify-end';
+                messageBubble.classList.add('user-message');
+            } else {
+                messageDiv.className = 'flex justify-start';
+                messageBubble.classList.add('ai-message');
+            }
+
+            if (isWaiting) {
+                messageBubble.innerHTML = `<p>${text} <span class="dot-flashing">...</span></p>`;
+            } else {
+                messageBubble.innerHTML = `<p>${text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>')}</p>`;
+            }
+
+            messageDiv.appendChild(messageBubble);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Function to append a loading message
+        function addLoadingMessage() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loading-indicator';
+            loadingDiv.className = 'flex justify-start';
+            loadingDiv.innerHTML = `
+                <div class="ai-message p-4 rounded-xl max-w-md shadow-sm">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-spinner fa-spin text-green-500 text-lg"></i>
+                        <p class="text-gray-700 dark:text-gray-300">${translations[currentLanguage].loading}</p>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Function to remove the loading message
+        function removeLoadingMessage() {
+            const loadingIndicator = document.getElementById('loading-indicator');
+            if (loadingIndicator) {
+                loadingIndicator.remove();
+            }
+        }
+
+        // --- API & Core Logic ---
+        async function fetchAIResponse(prompt, imageBase64 = null) {
+            if (isWaitingForResponse) return;
+            isWaitingForResponse = true;
+            addLoadingMessage();
+            let responseText = translations[currentLanguage].error_api;
+
+            try {
+                const parts = [];
+                // Add the main prompt
+                parts.push({ text: prompt });
+                
+                // Add the image data if available
+                if (imageBase64) {
+                    parts.push({
+                        inlineData: {
+                            mimeType: "image/png",
+                            data: imageBase64
+                        }
+                    });
+                }
+
+                const payload = {
+                    contents: [{ parts }],
+                    tools: [{ "google_search": {} }],
+                    systemInstruction: {
+                        parts: [{
+                            text: `You are a helpful and knowledgeable "Digital Krishi Officer" and a farmer-first AI assistant. Provide concise, accurate, and context-aware advice to farmers.
+                            - Base your advice on the user's query and Google Search results for real-time information.
+                            - For pest and disease-related queries, provide clear identification and a natural, safe remedy if possible, or a specific pesticide recommendation.
+                            - Factor in the user's provided context (crop: ${cropInput.value || 'not specified'}, location: ${locationInput.value || 'not specified'}).
+                            - Respond in the ${currentLanguage} language. Use friendly and supportive tone.
+                            `
+                        }]
+                    }
+                };
+
+                const response = await fetchWithExponentialBackoff(API_URL + API_KEY, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                const candidate = result.candidates?.[0];
+
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    responseText = candidate.content.parts[0].text;
+                } else {
+                    console.error("API Response was not as expected:", result);
+                    responseText = translations[currentLanguage].error_api;
+                }
+            } catch (error) {
+                console.error("Fetch error:", error);
+                responseText = translations[currentLanguage].error_network;
+            } finally {
+                removeLoadingMessage();
+                addMessage('ai', responseText);
+                isWaitingForResponse = false;
+            }
+        }
+
+        async function fetchWithExponentialBackoff(url, options) {
+            let delay = 1000;
+            for (let i = 0; i < MAX_RETRIES; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.status !== 429) {
+                        return response;
+                    }
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                } catch (error) {
+                    if (i === MAX_RETRIES - 1) {
+                        throw error;
+                    }
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+            throw new Error('Max retries exceeded');
+        }
+
+        // --- Event Listeners ---
+        sendBtn.addEventListener('click', () => {
+            const query = userInput.value.trim();
+            if (query) {
+                addMessage('user', query);
+                fetchAIResponse(query);
+                userInput.value = '';
+            }
+        });
+
+        userInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                sendBtn.click();
+            }
+        });
+
+        // Handle image upload
+        imageBtn.addEventListener('click', () => {
+            imageUpload.click();
+        });
+
+        imageUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                showModal(translations[currentLanguage].modal_title_error, "Image size must be less than 5MB.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Image = e.target.result.split(',')[1];
+                const query = userInput.value.trim() || translations[currentLanguage].sending_image;
+                addMessage('user', query);
+                fetchAIResponse(query, base64Image);
+                userInput.value = '';
+                imageUpload.value = null; // Reset the file input
+            };
+            reader.onerror = function() {
+                showModal(translations[currentLanguage].modal_title_error, translations[currentLanguage].error_image);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Simulate voice input
+        voiceBtn.addEventListener('click', () => {
+            showModal(translations[currentLanguage].modal_title_info, translations[currentLanguage].modal_voice_message);
+        });
+
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            updateUI();
+        });
+    </script>
 </body>
 </html>
